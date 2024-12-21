@@ -1,0 +1,103 @@
+﻿body {
+    background-color: #f8f9fa; /* Light background for better contrast */
+}
+
+.product-list {
+    margin-top: 20%;
+}
+
+.product-card {
+    border: 1px solid #ddd;
+    border-radius: 1%;
+    padding: 5%;
+    margin-bottom: 20px; /* Increased margin-bottom for more space between rows */
+    transition: transform 0.2s;
+    background-color: #ffffff; /* White background for the card */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    height: 100%; /* Allow cards to fill the column height */
+    display: flex;
+    flex-direction: column; /* Stack children vertically */
+    align-items: center; /* Center items horizontally */
+}
+
+    .product-card:hover {
+        transform: scale(1.05); /* Slightly enlarge on hover */
+    }
+
+.product-image {
+    width: 100%; /* Make image span full width */
+    height: auto; /* Maintain aspect ratio */
+    border-radius: 5%; /* Rounded corners for images */
+    object-fit: cover; /* Cover to maintain aspect ratio */
+    margin-bottom: 15%; /* Space between image and other elements */
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #000000, #434343); /* Gradient background from black to dark gray */
+    border: none; /* Remove border */
+    color: white; /* Set text color to white for contrast */
+    padding: 12px 24px; /* Adjust padding for a better button size */
+    border-radius: 25px; /* More rounded corners */
+    font-size: 1rem; /* Font size */
+    font-weight: bold; /* Bold text */
+    text-transform: uppercase; /* Uppercase text for emphasis */
+    letter-spacing: 1px; /* Slightly increase letter spacing */
+    transition: background 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transition for hover effect */
+}
+
+    .btn-primary:hover {
+        background: linear-gradient(135deg, #434343, #000000); /* Invert gradient on hover */
+        transform: translateY(-2px); /* Slightly lift the button on hover */
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3); /* Add shadow effect on hover */
+    }
+
+.table {
+    color: white; /* Устанавливаем цвет текста на белый */
+}
+
+</style >
+
+.heart {
+    font-size: 36px; /* Increased size for heart icon */
+    color: white; /* Default color is white */
+    background-color: transparent; /* No background color */
+    border: none; /* Remove border */
+    position: absolute;
+    top: 1%;
+    right: 13%;
+    cursor: pointer; /* Pointer cursor for the heart icon */
+}
+
+    .heart.liked {
+        color: red; /* Change to red when liked */
+    }
+
+.product-details {
+    flex-grow: 1; /* Allow details section to grow and take up space */
+    text-align: left; /* Left-align text in product details */
+    width: 100%; /* Ensure it takes full width for alignment */
+}
+
+.product-name,
+.product-description,
+.product-price,
+.product-category {
+    font-family: 'Georgia', serif;
+}
+
+/* Applying negative margin-left to shift text left without changing card size */
+
+.product-name {
+    font-size: 1.5rem;
+    margin-bottom: 5%;
+    margin-left: -10px;
+}
+
+.product-description,
+.product-price,
+.product-category {
+    font-family: 'Arial', sans-serif;
+    margin-bottom: 5%;
+    text-align: left;
+    margin-left: -10px;
+}

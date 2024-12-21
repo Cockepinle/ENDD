@@ -1,0 +1,23 @@
+﻿@model Lepilina.Models.Category
+
+<h1>Редактировать товар</h1>
+
+<form asp-action="EditCa" method="post">
+    <input type="hidden" asp-for="category_id" />
+
+    <div class="form-group">
+        <label asp-for="category_id">Id категории</label>
+        <input asp-for="category_id" class="form-control" />
+        <span asp-validation-for="category_id" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="name_category">Название категории</label>
+        <input asp-for="name_category" class="form-control" />
+        <span asp-validation-for="name_category" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+<a asp-action="Index">Назад к списку товаров</a>

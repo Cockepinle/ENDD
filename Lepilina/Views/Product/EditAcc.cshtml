@@ -1,0 +1,27 @@
+﻿@model Lepilina.Models.Accounts
+
+<h1>Редактировать товар</h1>
+
+<form asp-action="EditAcc" method="post">
+    <input type="hidden" asp-for="accounts_id" />
+
+    <div class="form-group">
+        <label asp-for="logins">Логин</label>
+        <input asp-for="logins" class="form-control" />
+        <span asp-validation-for="logins" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="passwords">Пароль</label>
+        <input asp-for="passwords" class="form-control" />
+        <span asp-validation-for="passwords" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="accounts_id">Id аккаунта</label>
+        <textarea asp-for="accounts_id" class="form-control"></textarea>
+        <span asp-validation-for="accounts_id" class="text-danger"></span>
+    </div>
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+

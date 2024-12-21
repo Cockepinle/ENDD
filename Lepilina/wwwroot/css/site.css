@@ -1,0 +1,387 @@
+html {
+  font-size: 14%;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 100%;
+  }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+    background-color: white;
+    color: black;
+}
+
+.text-overlay {
+    background-color: rgba(255, 255, 255, 0.7);
+}
+.head {
+    margin: 0;
+    padding: 0;
+}
+.table {
+    color: white; /* Устанавливаем цвет текста на белый */
+}
+.womanFirst {
+    width: 137%;
+    height: 100vh;
+    overflow: hidden;
+    position: revert;
+    margin-left: -18%;
+}
+.womanFirsts {
+    overflow: hidden;
+    position: revert;
+    margin-left: -130%;
+}
+
+video {
+    width: 100%;
+    height: 100%; 
+    object-fit: cover;
+}
+
+.img {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+.carousel-caption h5,
+.carousel-caption p {
+    color: white;
+}
+h4.display-4 {
+    font-family: 'Times New Roman', sans-serif; 
+    font-size: 16px;
+    color: #333; 
+    font-weight: revert ;
+    text-align: center; 
+}
+.carousel-control-prev, .carousel-control-next {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 5%;
+}
+
+.carousel-control-prev {
+    left: 0; 
+}
+
+.carousel-control-next {
+    right: 0;
+}
+.carousel-item img {
+    margin: 0;
+    padding: 0;
+    display: block; 
+}
+.mb-4 {
+    margin-top: 10%;
+}
+
+
+.text-overlay {
+    margin-top: 3%;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.7);
+}
+
+.overlay-text {
+    color: black; 
+    background-color: rgba(0, 0, 0, 0.1); 
+    padding: 5%; 
+    border-radius: 5%;
+}
+
+.carousel-indicators{
+    bottom:76%;
+}
+.text-right {
+    text-align: right;
+}
+
+.row.align-items-center {
+    display: flex;
+    align-items: center;
+}
+.like-button i {
+    color: black;
+    transition: color 0.3s; 
+}
+
+.like-button.liked i {
+    color: red;
+}
+.fa-heart {
+    color: red;
+}
+.theme-toggle-form {
+    display: flex; 
+    justify-content: center; 
+    margin-top: 20px; 
+}
+
+.btn-tshirt {
+    background-color: transparent; 
+    border: none; 
+    cursor: pointer; 
+    position: relative;
+    width: 50px;
+    height: 50px; 
+}
+
+.tshirt-icon {
+    display: inline-block;
+    width: 100%;
+    height: 100%;
+    background-color: black; 
+    clip-path: polygon(50% 0%, 100% 20%, 100% 80%, 50% 100%, 0% 80%, 0% 20%);
+    transition: transform 0.3s ease;
+}
+
+.btn-tshirt:hover .tshirt-icon {
+    transform: scale(1.1);
+}
+
+.btn-tshirt:focus {
+    outline: none;
+}
+.left {
+    margin-right: 2%;
+    margin-left: 2%;
+}
+/* Стили для таблиц */
+/* Стили для таблиц */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px; /* Отступ снизу */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); /* Тень для таблицы */
+    border-radius: 8px; /* Округление углов */
+    overflow: hidden; /* Скрыть лишние элементы */
+}
+
+    /* Стили для заголовков таблиц */
+    .table thead th {
+        background-color: #333; /* Темный цвет фона заголовка */
+        color: #ffffff; /* Цвет текста */
+        padding: 12px; /* Отступы */
+        text-align: left; /* Выравнивание текста */
+        font-weight: bold; /* Жирный шрифт */
+    }
+
+    /* Стили для ячеек таблиц */
+    .table tbody td {
+        border: 1px solid #444; /* Темная граница ячеек */
+        padding: 12px; /* Отступы */
+        background-color: #222; /* Темный фон ячеек */
+        color: #ffffff; /* Белый цвет текста для ячеек */
+    }
+
+    /* Плавный переход для строк таблицы */
+    .table tbody tr {
+        transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход для фона и цвета текста */
+    }
+
+        /* Эффект наведения для строк таблицы */
+        .table tbody tr:hover {
+            background-color: #555; /* Цвет фона при наведении (светло-серый) */
+            color: #FFD700; /* Цвет текста при наведении (золотистый) */
+        }
+
+/* Стили для заголовков таблиц */
+.table thead th {
+    background-color: #333; /* Темный цвет фона заголовка */
+    color: #ffffff; /* Цвет текста */
+    padding: 12px; /* Отступы */
+    text-align: left; /* Выравнивание текста */
+    font-weight: bold; /* Жирный шрифт */
+}
+
+    /* Стили для ячеек таблиц */
+    .table tbody td {
+        border: 1px solid #444; /* Темная граница ячеек */
+        padding: 12px; /* Отступы */
+        background-color: #222; /* Темный фон ячеек */
+        color: #ffffff; /* Белый цвет текста для ячеек */
+    }
+
+    /* Плавный переход для строк таблицы */
+    .table tbody tr {
+        transition: background-color 0.3s ease, color 0.3s ease; /* Плавный переход для фона и цвета текста */
+    }
+
+        /* Эффект наведения для строк таблицы */
+        .table tbody tr:hover {
+            background-color: #555; /* Цвет фона при наведении (светло-серый) */
+            color: #FFD700; /* Цвет текста при наведении (золотистый) */
+        }
+
+/* Адаптивные стили для мобильных устройств */
+@media (max-width: 600px) {
+    .table thead {
+        display: none; /* Скрыть заголовки на мобильных устройствах */
+    }
+
+    .table tbody tr {
+        display: block; /* Сделать строки блочными элементами */
+        margin-bottom: 10px; /* Отступ между строками */
+        border: 1px solid #444; /* Граница вокруг каждой строки */
+        border-radius: 8px; /* Округление углов строк */
+        overflow: hidden; /* Скрыть лишние элементы */
+    }
+
+    .table tbody td {
+        display: flex;
+        justify-content: space-between; /* Выравнивание содержимого ячеек */
+        padding: 10px;
+        border-bottom: 1px solid #444; /* Темная граница между ячейками на мобильных устройствах */
+        background-color: #222; /* Темный фон ячеек на мобильных устройствах */
+        color: #ffffff; /* Белый цвет текста на мобильных устройствах */
+    }
+}
+/* Стили для золотых кнопок */
+.btn-gold {
+    background-color: dimgray; /* Золотой цвет фона */
+    color: #ffffff; /* Цвет текста */
+    border: none; /* Убираем границу */
+    padding: 10px 20px; /* Отступы */
+    text-align: center; /* Выравнивание текста */
+    text-decoration: none; /* Убираем подчеркивание */
+    display: inline-block; /* Отображение как блочный элемент */
+    font-size: 16px; /* Размер шрифта */
+    border-radius: 5px; /* Округление углов */
+    transition: background-color 0.3s ease; /* Плавный переход цвета фона */
+}
+
+    /* Эффект наведения для золотых кнопок */
+    .btn-gold:hover {
+        background-color: black; /* Цвет фона при наведении (более светлый оттенок золота) */
+    }
+.table img {
+    border-radius: 5px; /* Закругленные углы */
+}
+
+.table td {
+    vertical-align: middle; /* Выравнивание по центру */
+}
+/* Основные стили для карточек товара */
+.product-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s, box-shadow 0.2s;
+    margin-bottom: 20px; /* Отступ между карточками */
+    width: 300px; /* Фиксированная ширина карточек */
+    height: auto; /* Автоматическая высота для содержимого */
+}
+
+    .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+
+.product-image {
+    border-radius: 8px;
+    height: 300px; /* Увеличение высоты изображения */
+    object-fit: cover; /* Обеспечивает правильное отображение изображений */
+    width: 100%; /* Ширина изображения на всю карточку */
+}
+
+.product-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+.product-description {
+    font-size: 1rem;
+    color: #555555;
+}
+
+.product-price {
+    font-size: 1.25rem;
+    color: #ff5722; /* Цвет для цены */
+}
+
+.product-category {
+    font-size: 0.9rem;
+    color: #777777; /* Цвет для категории */
+}
+
+button {
+    background-color: #28a745; /* Зеленый цвет кнопки */
+    color: white;
+    border: none;
+    border-radius: 65px; /* Овальная форма кнопки */
+    padding: 10px 20px; /* Увеличенные горизонтальные отступы для овальности */
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s; /* Добавление эффекта при наведении */
+    font-size: 1rem; /* Размер шрифта */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Тень для кнопки */
+}
+
+.like-button {
+    position: absolute; /* Allows positioning relative to parent */
+    top: 10px; /* Adjust as needed */
+    right: 10px; /* Position it on the right */
+    background-color: transparent; /* No background */
+    border: none; /* No border */
+    cursor: pointer; /* Pointer cursor on hover */
+}
+
+    .like-button i {
+        color: black; /* Default color of heart */
+        font-size: 24px; /* Size of the heart icon */
+        transition: color 0.3s, transform 0.3s; /* Smooth transitions for hover effects */
+    }
+
+    .like-button:hover i {
+        color: red; /* Change color on hover */
+        transform: scale(1.2); /* Slightly enlarge on hover */
+    }
+
+.quantity-selector button {
+    background-color: #6c757d; /* Цвет кнопок изменения количества */
+    border-radius: 50%; /* Круглая форма кнопок */
+    width: 40px; /* Ширина кнопки */
+    height: 40px; /* Высота кнопки */
+    display: flex; /* Используем flexbox для центрирования текста */
+    align-items: center; /* Центрируем по вертикали */
+    justify-content: center; /* Центрируем по горизонтали */
+    font-size: 1.5rem; /* Увеличенный размер шрифта для символов */
+    color: white; /* Цвет текста (если нужно изменить) */
+}
+
+ 
+
+/* Стили для кнопки "Добавить в избранное" */
+.heart {
+    background-color: transparent;
+    border: none;
+    font-size: 1.5rem;
+    color: #ff4081; /* Цвет сердечка */
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap; /* Позволяет карточкам переноситься на следующую строку при необходимости */
+}
+
+
+
+
+
+

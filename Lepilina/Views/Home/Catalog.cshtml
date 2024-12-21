@@ -1,0 +1,100 @@
+﻿@model IEnumerable<Lepilina.Models.ProductViewModel>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Каталог товаров</title>
+
+    <link rel="stylesheet" href="~/css/styles.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4 text-center">Каталог товаров</h1>
+
+        <div class="row">
+            @foreach (var item in Model)
+            {
+                <div class="col-md-4 mb-4">
+                    <div class="product-card border rounded p-3">
+                        <button class="heart" title="Добавить в избранное" onclick="toggleFavorite(this)">
+                            &hearts;
+                        </button>
+                        <div class="product-details text-center">
+                            @if (item.Images.Any())
+                            {
+                                <img src="@item.Images.First().image_data" alt="@item.Product.name_products" class="product-image img-fluid" />
+                            }
+                            <h2 class="product-name">@item.Product.name_products</h2>
+                            <p class="product-description">@item.Product.descriptions</p>
+                            <p class="product-price">Цена: @item.Product.price ₽</p>
+                            <p class="product-category">Категория: @item.Product.Category?.name_category</p>
+
+                            <!-- Кнопки для выбора количества -->
+                            <div class="quantity-selector d-flex justify-content-center align-items-center mb-2">
+                                <button onclick="changeQuantity('@item.Product.products_id', -1)">-</button>
+                                <input type="number" id="quantity-@item.Product.products_id" value="1" min="1" style="width: 50px; text-align: center;" />
+                                <button onclick="changeQuantity('@item.Product.products_id', 1)">+</button>
+                            </div>
+
+                            <!-- Кнопка добавления в корзину -->
+                            <button onclick="addToCart('@item.Product.products_id')">Добавить в корзину</button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+    </div>
+
+    <!-- JavaScript for toggling favorite status -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        function toggleFavorite(element) {
+            element.classList.toggle('liked');
+
+            if (element.classList.contains('liked')) {
+                alert("Добавлено в избранное!");
+            } else {
+                alert("Удалено из избранного!");
+            }
+        }
+
+        function changeQuantity(productId, change) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            let currentQuantity = parseInt(quantityInput.value);
+            currentQuantity += change;
+
+            if (currentQuantity < 1) {
+                currentQuantity = 1; // Минимум 1
+            }
+
+            quantityInput.value = currentQuantity;
+        }
+
+        function addToCart(productId) {
+            const quantityInput = document.getElementById(`quantity-${productId}`);
+            const quantity = parseInt(quantityInput.value);
+
+            $.post('/Cart/AddToCart', { productId: productId, quantity: quantity }, function () {
+                alert('Товар добавлен в корзину!');
+                updateCartCount(); // Обновите счетчик товаров в корзине
+            }).fail(function () {
+                alert('Ошибка при добавлении товара в корзину.');
+            });
+        }
+
+        function updateCartCount() {
+            // Здесь вы можете получить количество товаров из куки или локального хранилища
+            var cart = JSON.parse(localStorage.getItem('cart')) || [];
+            var itemCount = cart.reduce((total, item) => total + item.quantity, 0);
+
+            // Обновите счетчик на вкладке "Корзина"
+            document.querySelector('.cart-count').textContent = itemCount;
+        }
+    </script>
+</body>
+</html>

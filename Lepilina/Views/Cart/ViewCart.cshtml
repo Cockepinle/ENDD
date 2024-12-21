@@ -1,0 +1,82 @@
+﻿@model List<Lepilina.Models.CartItem>
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Корзина</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+
+@{
+    ViewData["Title"] = "Ваша корзина";
+}
+
+<h2>Ваша корзина</h2>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-warning" role="alert">
+        Ваша корзина пуста. Добавьте товары в корзину, чтобы продолжить покупки.
+    </div>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Изображение</th>
+                <th>Товар</th>
+                <th>Количество</th>
+                <th>Цена</th>
+                <th>Итого</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @if (!string.IsNullOrEmpty(item.ProductImage))
+                        {
+                            <img src="@item.ProductImage" alt="@item.ProductName" style="width:100px;height:auto;" />
+                        }
+                        else
+                        {
+                            <span>Нет изображения</span>
+                        }
+                    </td>
+                    <td>@item.ProductName</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.ProductPrice.ToString("C")</td>
+                    <td>@item.TotalPrice.ToString("C")</td>
+                    <td>
+                        <form method="post" action="@Url.Action("UpdateQuantity", "Cart")">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <input type="number" name="quantity" value="@item.Quantity" min="1" />
+                            <button type="submit">Обновить</button>
+                        </form>
+                        <form method="post" action="@Url.Action("RemoveFromCart", "Cart")">
+                            <input type="hidden" name="productId" value="@item.ProductId" />
+                            <button type="submit">Удалить</button>
+                        </form>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <tfoot>
+        <tr>
+            <td colspan="4">Итого:</td> <!-- Adjusted colspan for total row -->
+            <td>@Model.Sum(x => x.TotalPrice).ToString("C")</td>
+            <td></td>
+        </tr>
+    </tfoot>
+
+    <form method="post" action="@Url.Action("Checkout", "Cart")">
+        <button type="submit" class="btn btn-secondary">Перейти к оформлению заказа</button>
+    </form>
+}

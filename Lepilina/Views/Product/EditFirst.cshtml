@@ -1,0 +1,34 @@
+﻿@model Lepilina.Models.Users
+
+<h1>Редактировать товар</h1>
+
+<form asp-action="EditFirst" method="post">
+    <input type="hidden" asp-for="users_id" />
+
+    <div class="form-group">
+        <label asp-for="sername">Фамилия</label>
+        <input asp-for="sername" class="form-control" />
+        <span asp-validation-for="sername" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="names">Имя</label>
+        <input asp-for="names" class="form-control" />
+        <span asp-validation-for="names" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="patronymic">Отчество</label>
+        <textarea asp-for="patronymic" class="form-control"></textarea>
+        <span asp-validation-for="patronymic" class="text-danger"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="position_id">Id должности</label>
+        <input asp-for="position_id" class="form-control" />
+        <span asp-validation-for="position_id" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+</form>
+
+<a asp-action="Index">Назад к списку товаров</a>

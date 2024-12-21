@@ -1,0 +1,26 @@
+﻿@model Lepilina.Models.Category
+
+@{
+    ViewData["Title"] = "Добавить категорию";
+}
+
+<h2>Добавить категорию</h2>
+
+<form asp-action="CreateCa" method="post">
+    <div class="form-group">
+        <label asp-for="name_category" class="control-label">Название категории</label>
+        <input asp-for="name_category" class="form-control" />
+        <span asp-validation-for="name_category" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Добавить" class="btn btn-primary" />
+    </div>
+</form>
+
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

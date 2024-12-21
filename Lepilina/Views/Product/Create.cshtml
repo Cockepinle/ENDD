@@ -1,0 +1,73 @@
+﻿@model Lepilina.Models.Products
+
+<h1>Добавить новый товар</h1>
+
+<form asp-action="Create" method="post">
+    <div class="form-group">
+        <label asp-for="name_products">Название товара</label>
+        <input asp-for="name_products" class="form-control" />
+        <span asp-validation-for="name_products" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="price">Цена</label>
+        <input asp-for="price" class="form-control" />
+        <span asp-validation-for="price" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="descriptions">Описание</label>
+        <input asp-for="descriptions" class="form-control" />
+        <span asp-validation-for="descriptions" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="stocks_quantity">Количество на складе</label>
+        <input asp-for="stocks_quantity" class="form-control" />
+        <span asp-validation-for="stocks_quantity" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="category_id">Id категории</label>
+        <input asp-for="category_id" class="form-control" />
+        <span asp-validation-for="category_id" class="text-danger"></span>
+    </div>
+
+    <!-- Проверка на наличие изображений -->
+    @if (Model.Images != null && Model.Images.Count > 0)
+    {
+        for (int i = 0; i < Model.Images.Count; i++)
+        {
+            <div class="form-group">
+                <label>URL изображения @i</label>
+                <input type="text" name="Images[@i].image_data" class="form-control" placeholder="Введите URL изображения" />
+                <span asp-validation-for="@Model.Images[i].image_data" class="text-danger"></span>
+            </div>
+        }
+    }
+
+    <!-- Поле для добавления нового изображения -->
+    <button type="button" id="addImageButton">Добавить еще одно изображение</button>
+
+    <button type="submit" class="btn btn-primary">Добавить товар</button>
+</form>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        let imageIndex = @Model.Images.Count; // Начальный индекс для новых изображений
+        document.getElementById('addImageButton').addEventListener('click', function () {
+            const newImageDiv = document.createElement('div');
+            newImageDiv.className = 'form-group';
+            newImageDiv.innerHTML = `
+                        <label>URL изображения ${imageIndex}</label>
+                        <input type='text' name='Images[${imageIndex}].image_data' class='form-control' placeholder='Введите URL изображения' />
+                        <span asp-validation-for='Images[${imageIndex}].image_data' class='text-danger'></span>`;
+            document.querySelector('form').insertBefore(newImageDiv, this);
+            imageIndex++;
+        });
+    </script>
+}

@@ -1,0 +1,31 @@
+﻿@using System.Globalization
+@model Lepilina.Models.Users
+@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
+<h2>Удаление товара</h2>
+
+<h3>Вы уверены, что хотите удалить этот товар?</h3>
+<div>
+    <h4>Детали товара</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Id пользователя</dt>
+        <dd class="col-sm-10">@Model.users_id</dd>
+        <dt class="col-sm-2">Фамилия</dt>
+        <dd class="col-sm-10">@Model.sername</dd>
+        <dt class="col-sm-2">Имя</dt>
+        <dd class="col-sm-10">@Model.names</dd>
+        <dt class="col-sm-2">Отчество</dt>
+        <dd class="col-sm-10">@Model.patronymic</dd>
+        <dt class="col-sm-2">Должность</dt>
+        <dd class="col-sm-10">@Model.position_id</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmedFirst" method="post">
+    <input type="hidden" name="id" value="@Model.users_id" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>

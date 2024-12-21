@@ -1,0 +1,492 @@
+﻿@using System.Globalization
+    @model (IEnumerable<Lepilina.Models.Products>, IEnumerable<Lepilina.Models.Users>, IEnumerable<Lepilina.Models.Accounts>, IEnumerable<Lepilina.Models.Category>)
+@{
+    var theme = ViewBag.Theme?.ToString() ?? "light"; // Убедитесь, что тема по умолчанию задана
+    var userPosition = ViewBag.UserPosition; 
+}
+
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title</title>
+    <link href="~/Content/@(theme.ToLower()).css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/css/@(theme == "dark" ? "site.css" : "black.css")">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <h1>@ViewBag.Greeting</h1>
+
+    @if (User.IsInRole("Менеджер"))
+    {
+        <div class="container mt-5">
+            <h2>Общее количество продаж</h2>
+            <canvas id="totalSalesChart"></canvas>
+
+            <h2 class="mt-5">Распределение продаж по категориям</h2>
+            <canvas id="categorySalesChart"></canvas>
+        </div>
+
+        <script>
+            // Данные для общего количества продаж
+            const totalSales = @Html.Raw(ViewBag.TotalSales);
+
+            // Линейный график общего количества продаж
+            const ctxTotal = document.getElementById('totalSalesChart').getContext('2d');
+            const totalSalesChart = new Chart(ctxTotal, {
+                type: 'line',
+                data: {
+                    labels: ['Общее количество'],
+                    datasets: [{
+                        label: 'Продажи',
+                        data: [totalSales],
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            title: {
+                                display: true,
+                                text: 'Количество'
+                            }
+                        },
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Период'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Данные для распределения продаж по категориям
+            const categoryData = @Html.Raw(ViewBag.CategorySales);
+
+            const categoryLabels = categoryData.map(category => category.CategoryName); /
+            const categoryCounts = categoryData.map(category => category.Count); 
+
+            // Круговая диаграмма распределения продаж по категориям
+            const ctxCategory = document.getElementById('categorySalesChart').getContext('2d');
+            const categorySalesChart = new Chart(ctxCategory, {
+                type: 'pie',
+                data: {
+                    labels: categoryLabels,
+                    datasets: [{
+                        label: 'Распределение продаж',
+                        data: categoryCounts,
+                        backgroundColor: [
+                            'rgba(255, 99, 132, 0.2)',
+                            'rgba(54, 162, 235, 0.2)',
+                            'rgba(255, 206, 86, 0.2)',
+                            'rgba(75, 192, 192, 0.2)',
+                            'rgba(153, 102, 255, 0.2)'
+                        ],
+                        borderColor: [
+                            'rgba(255, 99, 132, 1)',
+                            'rgba(54, 162, 235, 1)',
+                            'rgba(255, 206, 86, 1)',
+                            'rgba(75, 192, 192, 1)',
+                            'rgba(153, 102, 255, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        title: {
+                            display: true,
+                            text: 'Распределение продаж по категориям'
+                        }
+                    }
+                }
+            });
+        </script>
+        <form asp-controller="Cart" asp-action="ExportSalesReport" method="get">
+            <button type="submit">Экспортировать отчет по продажам</button>
+        </form>
+    }
+
+
+
+    
+
+    @if (User.IsInRole("Менеджер") || User.IsInRole("Администратор"))
+    {
+        <p>
+            <a asp-action="Create" asp-controller="Product" class="btn-gold">Добавить новый товар</a>
+            <a asp-action="CreateUs" asp-controller="Product" class="btn-gold">Добавить нового пользователя</a>
+            <a asp-action="CreateCa" asp-controller="Product" class="btn-gold">Добавить новую категорию</a>
+        </p>
+    }
+    <a class="btn-gold" href="@Url.Action("Logout")">Выход</a>
+
+     @if (ViewBag.UserPositionId == 1 )
+    {
+        <table class="table" title="Сотрудники">
+            <thead>
+                <h1>Сотрудники</h1>
+                <tr>
+                    <th>Фамилия</th>
+                    <th>Имя</th>
+                    <th>Отчество</th>
+                    <th>Должность</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Item1.Any())
+                {
+                    foreach (var item in Model.Item2)
+                    {
+                        <tr>
+                            <td>@item.sername</td>
+                            <td>@item.names</td>
+                            <td>@item.patronymic</td>
+                            <td>@item.position_id</td>
+                            <td>
+                                <a asp-action="EditFirst" asp-controller="Product" asp-route-id="@item.users_id">Редактировать</a>
+                                <a asp-action="DeleteFirst" asp-controller="Product" asp-route-id="@item.users_id">Удалить</a>
+                            </td>
+                       </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4">Нет доступных пользователей.</td></tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Item1.Any())
+        {
+            <p>Нет доступных товаров.</p>
+        }
+ 
+    }
+    @if (ViewBag.UserPositionId == 1)
+    {
+        <table class="table">
+            <thead>
+                <h1>Аккаунты</h1>
+                <tr>
+                    <th>Логин</th>
+                    <th>Пароль</th>
+                    <th>Id аккаунта</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Item1.Any())
+                {
+                    foreach (var item in Model.Item3)
+                    {
+                        <tr>
+                            <td>@item.logins</td>
+                            <td>@item.passwords</td>
+                            <td>@item.accounts_id</td>
+                            <td>
+                                <a asp-action="EditAcc" asp-controller="Product" asp-route-id="@item.accounts_id">Редактировать</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="5">Нет доступных пользователей.</td></tr> <!-- Обратите внимание на количество столбцов -->
+                }
+            </tbody>
+        </table>
+    
+
+        @if (!Model.Item1.Any())
+        {
+            <p>Нет доступных товаров.</p>
+        }
+
+    }   
+     @if (ViewBag.UserPositionId == 1)
+    {
+        <table class="table">
+            <thead>
+                <h1>Категория товара</h1>
+                <tr>
+                    <th>Id товара</th>
+                    <th>Id</th>
+                    <th>Категория</th>
+                    <th>Действия</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Item1.Any())
+                {
+
+                    foreach (var item in Model.Item4)
+                    {
+                        <tr>
+                            <td>
+                                @foreach (var items in item.Products)
+                                {
+                                    @items.products_id
+                                }
+                            </td>
+                            <td>@item.category_id</td>
+                            <td>@item.name_category</td>
+                            <td>
+                                <a asp-action="EditCa" asp-controller="Product" asp-route-id="@item.category_id">Редактировать</a>
+                                <a asp-action="DeleteCa" asp-controller="Product" asp-route-id="@item.category_id">Удалить</a>
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4">Нет доступных пользователей.</td></tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Item1.Any())
+        {
+            <p>Нет доступных товаров.</p>
+        }
+
+    }  
+    @if (ViewBag.UserPositionId == 1 || ViewBag.UserPositionId == 2)
+    {
+        <table class="table" title="Товары">
+            <thead>
+                <h1>Товары</h1>
+                <tr>
+                    <th>Изображение</th>
+                    <th>Название</th>
+                    <th>Цена</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model.Item1.Any())
+                {
+                    foreach (var item in Model.Item1)
+                    {
+                        <tr>
+                            <td>
+                                @foreach (var image in item.Images)
+                                {
+                                    <img src="@image.image_data" style="width: 50px; height: auto;" />
+                                }
+                                <input type="text" class="edit-product-image-url" value="@string.Join(", ", item.Images.Select(img => img.image_data))" style="display:none;" />
+                            </td>
+                            <td>@item.name_products</td>
+                            <td>@item.price.ToString("C", CultureInfo.CurrentCulture)</td>
+                            <td>
+                                @if (User.IsInRole("Менеджер") || User.IsInRole("Администратор"))
+                                {
+                                    <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.products_id">Редактировать</a>
+
+                                    @if (User.IsInRole("Администратор"))
+                                    {
+                                        <a asp-action="Delete" asp-controller="Product" asp-route-id="@item.products_id">Удалить</a>
+                                    }
+                                }
+                            </td>
+                        </tr>
+                    }
+                }
+                else
+                {
+                    <tr><td colspan="4">Нет доступных товаров.</td></tr>
+                }
+            </tbody>
+        </table>
+
+        @if (!Model.Item1.Any())
+        {
+            <p>Нет доступных товаров.</p>
+        }
+
+    }
+
+
+
+    <form asp-action="ToggleTheme" method="post" class="theme-toggle-form">
+        <button type="submit" class="btn btn-tshirt womanFirsts" id="toggle-button">
+            <span class="tshirt-icon"></span> 
+        </button>
+    </form>
+    <div class="text-center">
+        <h2 class="display-4">Добро пожаловать в White silk</h2>
+        <h4 class="display-4 ">Откройте для себя эксклюзивные коллекции одежды от ведущих мировых брендов</h4>    
+    </div>
+        <video autoplay loop muted class="womanFirst">
+            <source src="vidio/3.MP4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </div>
+    <h2 class="display-4 mb-4" style="text-align: left;">PREMIUM COLLECTION</h2>
+   <div id="carouselExampleDark" class="carousel carousel-dark slide">
+       <div class="carousel-indicators">
+           <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+           <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="1" aria-label="Slide 2"></button>
+           <button type="button" data-bs-target="#carouselExampleDark" data-bs-slide-to="2" aria-label="Slide 3"></button>
+       </div>
+
+     <div class="carousel-inner">
+            <div class="carousel-item active" data-bs-interval="10000">
+                <div class="img row position-relative">
+                    <div class="col-4 position-relative">
+                        <img src="~/media/5.jpg" class="w-100" alt="Image 1">
+                        <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Кожаный костюм-юбка</p>
+                            <p style="font-family: 'Times New Roman';">20 900p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-4 position-relative">
+                        <img src="~/media/6.jpg" class="w-100" alt="Image 2">
+                         <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Кожаная панамка-беретка</p>
+                            <p style="font-family: 'Times New Roman';">6 999p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="col-4 position-relative">
+                        <img src="~/media/7.jpg" class="w-100" alt="Image 3">
+                         <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Виное пальто</p>
+                            <p style="font-family: 'Times New Roman';">30 999p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        <div class="carousel-item" data-bs-interval="2000">
+                <div class="img row position-relative">
+                    <div class="col-4 position-relative">
+                        <img src="~/media/11.jpg" class="w-100" alt="Image 1">
+                        <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Брюки</p>
+                            <p style="font-family: 'Times New Roman';">20 900p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+
+                    <div class="col-4 position-relative">
+                        <img src="~/media/9.jpg" class="w-100" alt="Image 2">
+                         <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Бордовый плащ</p>
+                            <p style="font-family: 'Times New Roman';">26 999p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                    <div class="col-4 position-relative">
+                        <img src="~/media/10.jpg" class="w-100" alt="Image 3">
+                         <div class="text-overlay">
+                            <p class="overlay-text" style="font-family: 'Times New Roman';">Кожаное платье</p>
+                            <p style="font-family: 'Times New Roman';">38 999p</p>
+                        </div>
+                        <button class="like-button" onclick="toggleLike(this)">
+                            <i class="fas fa-heart"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        <div class="carousel-item" data-bs-interval="2000">
+            <div class="img row position-relative">
+                <div class="col-4 position-relative">
+                    <img src="~/media/14.jpg" class="w-100" alt="Image 1">
+                    <div class="text-overlay">
+                        <p class="overlay-text" style="font-family: 'Times New Roman';">Кожаный бордовый костюм</p>
+                        <p style="font-family: 'Times New Roman';">17 999p</p>
+                    </div>
+                    <button class="like-button" onclick="toggleLike(this)">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+
+                <div class="col-4 position-relative">
+                    <img src="~/media/13.jpg" class="w-100" alt="Image 2">
+                        <div class="text-overlay">
+                        <p class="overlay-text" style="font-family: 'Times New Roman';">Кожаные сапоги</p>
+                        <p style="font-family: 'Times New Roman';">20 999p</p>
+                    </div>
+                    <button class="like-button" onclick="toggleLike(this)">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+                <div class="col-4 position-relative">
+                    <img src="~/media/15.jpg" class="w-100" alt="Image 3">
+                        <div class="text-overlay">
+                        <p class="overlay-text" style="font-family: 'Times New Roman';">Плащи</p>
+                        <p style="font-family: 'Times New Roman';">29 999p</p>
+                    </div>
+                    <button class="like-button" onclick="toggleLike(this)">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+    </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev" >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+
+   <div class="text-center left">
+        <h2 class="display-4 mb-4" style="text-align: left;">COSTOMES</h2>
+
+        <div class="row align-items-center">
+            <div class="col-md-6 col-6">
+                <img src="~/media/cos1.jpg" class="rounded float-start img-fluid" alt="...">
+            </div>
+            <div class="col-md-6 col-6 text-md-right">
+                <h3>Men</h3>
+                <p>Классический костюм for men.</p>
+            </div>
+        </div>
+
+        <div class="row align-items-center">
+            <div class="col-md-6 col-6 text-md-left">
+                <h3>Woman</h3>
+                <p>Классический костюм for woman.</p>
+            </div>
+            <div class="col-md-6 col-6">
+                <img src="~/media/cos3.jpg" class="rounded float-end img-fluid" alt="...">
+            </div>
+        </div>
+    </div>
+
+</body>
+   
+
+
+

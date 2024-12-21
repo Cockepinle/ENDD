@@ -1,0 +1,20 @@
+﻿@model IEnumerable<Products>
+
+<body>
+    <h2>@ViewBag.Greeting</h2>
+    @if (User.IsInRole("Менеджер"))
+    {
+        <a asp-controller="Products" asp-action="Manage">Управление товарами</a>
+    }
+
+    @if (User.IsInRole("Админ"))
+    {
+        <a asp-controller="Admins" asp-action="Dashboard">Админ панель</a>
+    }
+
+    @if (User.IsInRole("Пользователь"))
+    {
+        <p>Добро пожаловать, пользователь!</p>
+        // Additional user-specific content can be added here
+    }
+</body>

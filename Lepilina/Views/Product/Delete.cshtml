@@ -1,0 +1,28 @@
+﻿@using System.Globalization
+@model Lepilina.Models.Products
+
+@{
+    ViewData["Title"] = "Delete Confirmation";
+}
+
+<h2>Удаление товара</h2>
+
+<h3>Вы уверены, что хотите удалить этот товар?</h3>
+<div>
+    <h4>Детали товара</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Название</dt>
+        <dd class="col-sm-10">@Model.name_products</dd>
+        <dt class="col-sm-2">Цена</dt>
+        <dd class="col-sm-10">@Model.price.ToString("C", CultureInfo.CurrentCulture)</dd>
+        <dt class="col-sm-2">Описание</dt>
+        <dd class="col-sm-10">@Model.descriptions</dd>
+    </dl>
+</div>
+
+<form asp-action="DeleteConfirmed" method="post">
+    <input type="hidden" name="id" value="@Model.products_id" />
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a asp-action="Index" class="btn btn-secondary">Отмена</a>
+</form>
